@@ -1,9 +1,14 @@
-"""Módulo 1 - Ejercicio 3: código con estilo.
+"""Módulo 1 - Ejercicio 3: código con estilo. SOLUCIÓN."""
 
-La función de abajo funciona, pero ignora PEP 8. Reescríbela siguiendo las
-indicaciones del enunciado sin cambiar su comportamiento.
-"""
+IVA_GENERAL = 21
 
-def PrecioFinal(P,i=21,d=0):
-  x=P-P*d/100;y=x+x*i/100
-  return round(y,2)
+
+def precio_final(precio, iva=IVA_GENERAL, descuento=0):
+    """Devuelve el precio tras aplicar el descuento y después el IVA.
+
+    ``iva`` y ``descuento`` son porcentajes. El resultado se redondea a dos
+    decimales.
+    """
+    precio_con_descuento = precio - precio * descuento / 100
+    precio_con_iva = precio_con_descuento + precio_con_descuento * iva / 100
+    return round(precio_con_iva, 2)
