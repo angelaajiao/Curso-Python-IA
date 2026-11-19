@@ -1,9 +1,9 @@
 """Módulo 1 - Ejercicio 2: operaciones con dos números."""
 
-
 def sumar(a, b):
     """Devuelve a + b."""
-    raise NotImplementedError
+    suma = a + b
+    return suma
 
 
 def restar(a, b):
