@@ -30,10 +30,10 @@ def es_intento_valido(texto: str) -> bool:
     >>> es_intento_valido("50"), es_intento_valido("abc"), es_intento_valido("101")
     (True, False, False)
     """
-    if not texto.isdigit():
+    limpio = texto.strip()
+    if not limpio.isdigit():
         return False
-    numero = int(texto)
-    return MINIMO <= numero <= MAXIMO
+    return MINIMO <= int(limpio) <= MAXIMO
 
 
 def jugar(secreto: int, max_intentos: int = MAX_INTENTOS) -> bool:

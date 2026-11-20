@@ -32,8 +32,12 @@ def a_entero(texto: str) -> int | None:
     >>> a_entero("3.5") is None
     True
     """
-    return int(texto) if texto.strip().lstrip("+-").isdigit() else None
-
+    limpio = texto.strip()
+    if limpio[:1] in ("+", "-"):
+        numero = limpio[1:]
+    else:
+        numero = limpio
+    return int(limpio) if numero.isdigit() else None
 
 def casi_iguales(a: float, b: float, tolerancia: float = 1e-9) -> bool:
     """Indica si dos decimales son iguales dentro de una tolerancia absoluta.
@@ -50,8 +54,7 @@ def media(a: float, b: float, c: float) -> float:
     >>> media(5, 6, 8)
     6.33
     """
-    from statistics import mean
-    return round(mean([1,2,3]),2)
+    return round((a + b + c) / 3, 2)
 
 
 def partir_euros(importe: float) -> tuple[int, int]:
@@ -60,7 +63,7 @@ def partir_euros(importe: float) -> tuple[int, int]:
     >>> partir_euros(12.34)
     (12, 34)
     """
-    centimos = importe * 100
-    return divmod(centimos,100)
+    centimos = round(importe * 100) 
+    return divmod(centimos, 100)
     
 

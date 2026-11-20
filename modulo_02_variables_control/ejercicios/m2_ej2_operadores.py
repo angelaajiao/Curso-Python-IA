@@ -1,4 +1,5 @@
 """Módulo 2 - Ejercicio 2: operadores."""
+import time
 
 def es_bisiesto(anio: int) -> bool:
     """Indica si un año es bisiesto.
@@ -12,7 +13,6 @@ def es_bisiesto(anio: int) -> bool:
     return anio % 4 == 0 and (anio % 100 != 0 or anio % 400 == 0)
 
 def segundos_a_hms(segundos: int) -> str:
-    import time
     """Convierte segundos al formato HH:MM:SS.
 
     >>> segundos_a_hms(3725)

@@ -45,10 +45,10 @@ def contar_vocales(texto: str) -> int:
     5
     """
     texto = texto.lower()
-    vocales = "aeiouáéíóú"
+    VOCALES = "aeiouáéíóúü"
     contador = 0
     for letra in texto:
-        if letra in vocales:
+        if letra in VOCALES:
             contador += 1
     return contador
 
