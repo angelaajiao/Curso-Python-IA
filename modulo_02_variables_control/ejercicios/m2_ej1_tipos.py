@@ -8,8 +8,19 @@ def nombre_del_tipo(valor) -> str:
     >>> nombre_del_tipo(3.5)
     'decimal'
     """
-    raise NotImplementedError
-
+    tipo = type(valor)
+    if tipo is int:
+        return "entero"
+    elif tipo is float:
+        return "decimal"
+    elif tipo is bool:
+        return "booleano"
+    elif tipo is str:
+        return "texto"
+    elif tipo is type(None):
+        return "nulo"
+    else:
+        return "otro"
 
 def a_entero(texto: str) -> int | None:
     """Convierte ``texto`` a entero. Devuelve None si no es un entero válido.
@@ -21,7 +32,7 @@ def a_entero(texto: str) -> int | None:
     >>> a_entero("3.5") is None
     True
     """
-    raise NotImplementedError
+    return int(texto) if texto.strip().lstrip("+-").isdigit() else None
 
 
 def casi_iguales(a: float, b: float, tolerancia: float = 1e-9) -> bool:
@@ -30,7 +41,7 @@ def casi_iguales(a: float, b: float, tolerancia: float = 1e-9) -> bool:
     >>> casi_iguales(0.1 + 0.2, 0.3)
     True
     """
-    raise NotImplementedError
+    return (abs(a - b) <= tolerancia)
 
 
 def media(a: float, b: float, c: float) -> float:
@@ -39,7 +50,8 @@ def media(a: float, b: float, c: float) -> float:
     >>> media(5, 6, 8)
     6.33
     """
-    raise NotImplementedError
+    from statistics import mean
+    return round(mean([1,2,3]),2)
 
 
 def partir_euros(importe: float) -> tuple[int, int]:
@@ -48,5 +60,7 @@ def partir_euros(importe: float) -> tuple[int, int]:
     >>> partir_euros(12.34)
     (12, 34)
     """
-    raise NotImplementedError
+    centimos = importe * 100
+    return divmod(centimos,100)
+    
 
