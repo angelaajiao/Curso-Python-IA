@@ -1,4 +1,4 @@
-"""Módulo 2 - Ejercicio 3: condicionales."""
+"""Módulo 2 - Ejercicio 3: condicionales. SOLUCIÓN."""
 
 
 def calificacion(nota: float) -> str:
@@ -10,7 +10,17 @@ def calificacion(nota: float) -> str:
     >>> calificacion(7.5)
     'Notable'
     """
-    raise NotImplementedError
+    # Guarda para el caso inválido y luego ramas de mayor a menor: así cada
+    # condición solo necesita un límite.
+    if not 0 <= nota <= 10:
+        return "Nota no válida"
+    if nota >= 9:
+        return "Sobresaliente"
+    if nota >= 7:
+        return "Notable"
+    if nota >= 5:
+        return "Aprobado"
+    return "Suspenso"
 
 
 def precio_entrada(edad: int, es_festivo: bool = False) -> float:
@@ -22,7 +32,15 @@ def precio_entrada(edad: int, es_festivo: bool = False) -> float:
     >>> precio_entrada(30), precio_entrada(30, es_festivo=True), precio_entrada(2, True)
     (9, 11, 0)
     """
-    raise NotImplementedError
+    if edad < 4:
+        return 0
+    if edad <= 12:
+        precio = 5
+    elif edad < 65:
+        precio = 9
+    else:
+        precio = 6
+    return precio + 2 if es_festivo else precio
 
 
 def describir_http(codigo: int) -> str:
@@ -35,7 +53,24 @@ def describir_http(codigo: int) -> str:
     >>> describir_http(302), describir_http(503)
     ('Redirección', 'Error del servidor')
     """
-    raise NotImplementedError
+    match codigo:
+        case 200:
+            return "Correcto"
+        case 201:
+            return "Creado"
+        case 301 | 302:
+            return "Redirección"
+        case 400:
+            return "Petición incorrecta"
+        case 401 | 403:
+            return "Sin autorización"
+        case 404:
+            return "No encontrado"
+        # Un patrón puede llevar una condición adicional con if (guarda).
+        case _ if 500 <= codigo <= 599:
+            return "Error del servidor"
+        case _:
+            return "Desconocido"
 
 
 def mayor_de_tres(a: float, b: float, c: float) -> float:
@@ -44,7 +79,12 @@ def mayor_de_tres(a: float, b: float, c: float) -> float:
     >>> mayor_de_tres(3, 9, 5)
     9
     """
-    raise NotImplementedError
+    mayor = a
+    if b > mayor:
+        mayor = b
+    if c > mayor:
+        mayor = c
+    return mayor
 
 
 def tipo_triangulo(a: float, b: float, c: float) -> str:
@@ -57,4 +97,10 @@ def tipo_triangulo(a: float, b: float, c: float) -> str:
     >>> tipo_triangulo(3, 3, 3), tipo_triangulo(3, 4, 5), tipo_triangulo(1, 2, 3)
     ('equilátero', 'escaleno', 'no es un triángulo')
     """
-    raise NotImplementedError
+    if min(a, b, c) <= 0 or a + b <= c or a + c <= b or b + c <= a:
+        return "no es un triángulo"
+    if a == b == c:
+        return "equilátero"
+    if a == b or a == c or b == c:
+        return "isósceles"
+    return "escaleno"
