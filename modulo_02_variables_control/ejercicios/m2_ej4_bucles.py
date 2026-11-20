@@ -1,4 +1,4 @@
-"""Módulo 2 - Ejercicio 4: bucles."""
+"""Módulo 2 - Ejercicio 4: bucles. SOLUCIÓN."""
 
 
 def factorial(n: int) -> int:
@@ -7,7 +7,10 @@ def factorial(n: int) -> int:
     >>> factorial(5), factorial(0)
     (120, 1)
     """
-    raise NotImplementedError
+    resultado = 1
+    for numero in range(2, n + 1):
+        resultado *= numero
+    return resultado
 
 
 def es_primo(n: int) -> bool:
@@ -16,7 +19,13 @@ def es_primo(n: int) -> bool:
     >>> es_primo(13), es_primo(15), es_primo(1)
     (True, False, False)
     """
-    raise NotImplementedError
+    if n < 2:
+        return False
+    # Basta con probar divisores hasta la raíz cuadrada.
+    for divisor in range(2, int(n**0.5) + 1):
+        if n % divisor == 0:
+            return False
+    return True
 
 
 def invertir(texto: str) -> str:
@@ -25,7 +34,11 @@ def invertir(texto: str) -> str:
     >>> invertir("Python")
     'nohtyP'
     """
-    raise NotImplementedError
+    invertido = ""
+    for caracter in texto:
+        invertido = caracter + invertido
+    # La forma idiomática es texto[::-1]. Se ve en el módulo 4.
+    return invertido
 
 
 def contar_vocales(texto: str) -> int:
@@ -34,7 +47,11 @@ def contar_vocales(texto: str) -> int:
     >>> contar_vocales("Programación")
     5
     """
-    raise NotImplementedError
+    cuenta = 0
+    for caracter in texto.lower():
+        if caracter in "aeiouáéíóúü":
+            cuenta += 1
+    return cuenta
 
 
 def suma_digitos(numero: int) -> int:
@@ -43,7 +60,12 @@ def suma_digitos(numero: int) -> int:
     >>> suma_digitos(1234), suma_digitos(-905)
     (10, 14)
     """
-    raise NotImplementedError
+    numero = abs(numero)
+    suma = 0
+    while numero > 0:
+        numero, digito = divmod(numero, 10)
+        suma += digito
+    return suma
 
 
 def fizzbuzz(n: int) -> str:
@@ -55,7 +77,20 @@ def fizzbuzz(n: int) -> str:
     >>> fizzbuzz(5)
     '1 2 Fizz 4 Buzz'
     """
-    raise NotImplementedError
+    resultado = ""
+    for numero in range(1, n + 1):
+        if numero % 15 == 0:
+            palabra = "FizzBuzz"
+        elif numero % 3 == 0:
+            palabra = "Fizz"
+        elif numero % 5 == 0:
+            palabra = "Buzz"
+        else:
+            palabra = str(numero)
+        # Separador solo entre elementos: se añade antes de cada palabra
+        # excepto la primera.
+        resultado += palabra if numero == 1 else " " + palabra
+    return resultado
 
 
 def tabla_multiplicar(numero: int) -> str:
@@ -64,7 +99,12 @@ def tabla_multiplicar(numero: int) -> str:
     >>> print(tabla_multiplicar(7).splitlines()[2])
     7 x  3 =  21
     """
-    raise NotImplementedError
+    lineas = ""
+    for factor in range(1, 11):
+        lineas += f"{numero} x {factor:>2} = {numero * factor:>3}"
+        if factor < 10:
+            lineas += "\n"
+    return lineas
 
 
 def primer_multiplo_comun(a: int, b: int) -> int:
@@ -73,4 +113,7 @@ def primer_multiplo_comun(a: int, b: int) -> int:
     >>> primer_multiplo_comun(4, 6)
     12
     """
-    raise NotImplementedError
+    candidato = max(a, b)
+    while candidato % a != 0 or candidato % b != 0:
+        candidato += 1
+    return candidato

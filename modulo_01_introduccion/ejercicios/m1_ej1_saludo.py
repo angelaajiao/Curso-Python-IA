@@ -1,21 +1,32 @@
-"""Módulo 1 - Ejercicio 1: saludo."""
+"""Módulo 1 - Ejercicio 1: saludo. SOLUCIÓN."""
 
 
 def saludar(nombre):
     """Devuelve un saludo de bienvenida para ``nombre``.
 
-    El nombre se limpia de espacios sobrantes y se escribe con la inicial de
-    cada palabra en mayúscula. Si queda vacío, se saluda a "Anónimo".
-
     >>> saludar("  ada lovelace ")
     'Hola, Ada Lovelace. ¡Te damos la bienvenida al curso!'
     """
+<<<<<<< HEAD
 
     nombre = nombre.strip().title()
     if not nombre:
         nombre = "Anónimo"
     return f"Hola, {nombre}. ¡Te damos la bienvenida al curso!"
 
+=======
+    # strip() quita los espacios de los extremos y title() pone en mayúscula
+    # la inicial de cada palabra. Los métodos de str se pueden encadenar
+    # porque cada uno devuelve una cadena nueva (las cadenas son inmutables).
+    nombre_limpio = nombre.strip().title()
+
+    # Una cadena vacía se evalúa como False. Es la forma idiomática de
+    # comprobarlo, en lugar de len(nombre_limpio) == 0.
+    if not nombre_limpio:
+        nombre_limpio = "Anónimo"
+
+    return f"Hola, {nombre_limpio}. ¡Te damos la bienvenida al curso!"
+>>>>>>> c67e6ab911f0511b15210cc127f0d3c5623470b5
 
 
 def main():
