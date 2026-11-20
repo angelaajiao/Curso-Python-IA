@@ -7,14 +7,6 @@ def saludar(nombre):
     >>> saludar("  ada lovelace ")
     'Hola, Ada Lovelace. ¡Te damos la bienvenida al curso!'
     """
-<<<<<<< HEAD
-
-    nombre = nombre.strip().title()
-    if not nombre:
-        nombre = "Anónimo"
-    return f"Hola, {nombre}. ¡Te damos la bienvenida al curso!"
-
-=======
     # strip() quita los espacios de los extremos y title() pone en mayúscula
     # la inicial de cada palabra. Los métodos de str se pueden encadenar
     # porque cada uno devuelve una cadena nueva (las cadenas son inmutables).
@@ -26,7 +18,6 @@ def saludar(nombre):
         nombre_limpio = "Anónimo"
 
     return f"Hola, {nombre_limpio}. ¡Te damos la bienvenida al curso!"
->>>>>>> c67e6ab911f0511b15210cc127f0d3c5623470b5
 
 
 def main():
