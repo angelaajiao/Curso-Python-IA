@@ -42,7 +42,7 @@ def main():
 
     # --- Un parámetro solo por nombre cambia el comportamiento sin cambiar la llamada habitual
     print(normalizar(IMPORTES))
-    print(normalizar(IMPORTES, referencia=100))
+    print(normalizar(IMPORTES, referencia=1000))
 
 
 if __name__ == "__main__":

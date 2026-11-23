@@ -29,7 +29,7 @@ def aplicar_dos_veces(funcion, valor):
 def main():
     # --- Llamada y documentación
     print(precio_con_iva(100))
-    print(precio_con_iva.__doc__.splitlines()[0])
+    print(precio_con_iva.__doc__.splitlines()[0]) #imprime el docstring
 
     # --- return frente a print
     resultado = saludar("Ada")       # imprime...
