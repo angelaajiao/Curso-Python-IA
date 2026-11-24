@@ -7,6 +7,8 @@ numeros = [4, 8, 15, 16, 23, 42]
 # --- Acceso y slicing
 print(numeros[0], numeros[-1], numeros[-2])
 print(numeros[1:4], numeros[:3], numeros[-2:])
+print (numeros)
+print (numeros[:])
 print(numeros[::2], numeros[::-1])
 print(numeros[2:100])                    # un slice nunca da IndexError
 

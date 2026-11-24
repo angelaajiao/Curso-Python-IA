@@ -47,3 +47,23 @@ print(f"{'Departamento':<14}{'Personas':>9}{'Masa salarial':>15}")
 for departamento in sorted(masa_salarial):
     personas = len(plantilla[departamento])
     print(f"{departamento:<14}{personas:>9}{masa_salarial[departamento]:>15,}")
+
+# Traduzco una consulta SQL a Python:
+# SELECT nombre FROM empleados
+# WHERE departamento = 'IT'
+# ORDER BY salario DESC, nombre
+# LIMIT 2;
+
+
+de_it = [e for e in empleados if e["departamento"] == "IT"]
+orden = sorted(de_it, key=lambda e: (-e["salario"], e["nombre"]))
+print([e["nombre"] for e in orden[:2]])
+
+
+
+
+it_top2 = sorted(
+    (e for e in empleados if e["departamento"] == "IT"),
+    key=lambda e: (-e["salario"], e["nombre"])
+)[:2]
+print([e["nombre"] for e in it_top2])
