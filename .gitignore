@@ -1,9 +1,4 @@
 .venv/
 __pycache__/
 .pytest_cache/
-*.pyc
-.vscode/
-salida_practica_6/
-salida_practica_7/
-graficos_ejemplo/
-.ipynb_checkpoints/
+favoritos.json

@@ -1,9 +1,0 @@
-id,titulo,solicitante,prioridad,estado,asignada_a,fecha_alta,fecha_cierre
-1,No funciona el correo,Ada,alta,cerrada,Marta,2026-11-02,2026-11-05
-2,Instalar Python 3.13,Linus,media,resuelta,Pablo,2026-11-03,
-3,Pantalla rota,Grace,baja,abierta,,2026-11-03,
-4,Caída del servidor de ficheros,Alan,critica,en_curso,Marta,2026-11-10,
-5,Alta de usuario nuevo,Barbara,media,abierta,,2026-11-12,
-6,VPN lenta desde casa,Ada,alta,en_curso,Pablo,2026-11-16,
-7,Renovar licencia del antivirus,Guido,media,abierta,,2026-11-17,
-8,Impresora sin tóner,Grace,baja,cerrada,,2026-11-20,2026-11-21

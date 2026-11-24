@@ -1,78 +1,44 @@
-# Programación en Python - Nivel Inicial
+# 🍳 ¿Qué cocino con lo que tengo?
 
-Repositorio de trabajo del curso. Aquí están los apuntes, los ejemplos que se programan en clase, los ejercicios y las prácticas de cada módulo.
+Página web que propone recetas a partir de los ingredientes que tienes en casa.
+Usa la API gratuita de [TheMealDB](https://www.themealdb.com).
 
-El curso cubre las dos formas de trabajar con Python: como lenguaje para construir aplicaciones (módulos 2 a 6) y como lenguaje para ciencia de datos (módulo 7). El proyecto final reúne las dos.
+## Qué hace
 
-Los contenidos también están en HTML: abre [`docs/index.html`](docs/index.html) en el navegador.
-
-Y en forma de presentación interactiva, una diapositiva por pantalla: abre [`docs/presentacion/index.html`](docs/presentacion/index.html). Se avanza con las flechas o la barra espaciadora; `M` abre el índice, `Esc` la vista general y `F` la pantalla completa. En los ejemplos del intérprete los resultados están ocultos: intenta predecirlos y haz clic para comprobarlos.
-
-## Puesta en marcha
-
-Necesitas Python 3.12 o superior, Visual Studio Code y Git.
-
-```bash
-git clone https://github.com/yustech/Curso-Python-IA.git
-cd Curso-Python-IA
-python -m venv .venv
-```
-
-Activa el entorno virtual:
-
-| Sistema | Comando |
-| --- | --- |
-| Windows (PowerShell) | `.venv\Scripts\Activate.ps1` |
-| Windows (cmd) | `.venv\Scripts\activate.bat` |
-| macOS o Linux | `source .venv/bin/activate` |
-
-Instala las dependencias:
-
-```bash
-pip install -r requirements.txt
-```
-
-El fichero instala `pytest`, que se usa desde el primer día, y `numpy`, `pandas`, `matplotlib` y `jupyter`, que se usan en los módulos 7 y 8. Para abrir los cuadernos `.ipynb` en VS Code necesitas además la extensión Jupyter.
+- Escribes tus ingredientes separados por comas (en español o en inglés).
+- Te muestra las recetas ordenadas por cuántos de tus ingredientes usan, con foto.
+- Al abrir una receta ves los ingredientes, lo que **te falta comprar** y los pasos.
+- Marcas con casillas lo que tienes en casa (o todo de golpe) y la página te dice qué te falta.
+- Botón "Sorpréndeme" para una receta al azar.
+- Recetas favoritas: se guardan con el corazón y tienen su propio apartado. Se guardan en `favoritos.json`, así que siguen ahí al cerrar la app.
+- Interfaz en español o inglés (selector con banderas). En español, las recetas se traducen automáticamente.
+- Vídeo de la receta; si TheMealDB no lo tiene, botón para buscarlo en YouTube.
 
 ## Estructura
 
-Cada módulo tiene la misma organización:
+| Fichero | Qué contiene |
+| --- | --- |
+| `logica.py` | Toda la lógica: limpiar y traducir ingredientes, combinar y ordenar resultados, qué falta. Sin internet, con tests |
+| `api.py` | Las llamadas a TheMealDB con `requests` |
+| `app.py` | La página web con Streamlit. Solo muestra y recoge datos |
+| `favoritos.py` | Guardar, quitar y leer las recetas favoritas (fichero `favoritos.json`) |
+| `textos.py` | Todos los textos de la interfaz en español e inglés |
+| `traduccion.py` | Traducción automática de las recetas con el traductor de Google |
+| `.streamlit/config.toml` | Colores de la página |
+| `tests/` | Tests con pytest (no necesitan internet) |
 
-```
-modulo_XX_nombre/
-├── README.md      Apuntes del módulo
-├── ejemplos/      Código que se explica en clase, listo para ejecutar
-├── ejercicios/    Enunciados y ficheros que tienes que completar
-└── tests/         Tests que comprueban tus ejercicios y tu práctica
-```
+La API gratuita solo filtra por **un** ingrediente a la vez, así que se hace una
+petición por ingrediente y `logica.combinar_resultados` cuenta en cuántas
+búsquedas aparece cada receta.
 
-## Cómo trabajar los ejercicios
-
-1. Lee el enunciado en `ejercicios/README.md`.
-2. Completa el fichero del ejercicio. Sustituye cada `raise NotImplementedError` por tu código.
-3. Ejecuta los tests del módulo:
-
-```bash
-pytest modulo_01_introduccion
-```
-
-4. Un ejercicio está terminado cuando todos sus tests pasan. Para ejecutar solo un fichero de tests o ver más detalle:
+## Cómo ejecutarlo
 
 ```bash
-pytest modulo_01_introduccion/tests/test_m1_ejercicios.py -v
+python -m venv .venv
+.venv\Scripts\Activate.ps1        # Windows (PowerShell)
+pip install -r requirements.txt
+
+pytest                            # tests
+python api.py                     # prueba rápida de la API
+streamlit run app.py              # la página web
 ```
-
-Al empezar, todos los tests fallan. Es lo esperado: tu trabajo es ponerlos en verde.
-
-## Módulos
-
-| Módulo | Título | Horas |
-| --- | --- | --- |
-| 1 | [Introducción a Python](modulo_01_introduccion/README.md) | 4 |
-| 2 | [Variables, operadores y estructuras de control](modulo_02_variables_control/README.md) | 6 |
-| 3 | [Funciones y módulos](modulo_03_funciones_modulos/README.md) | 5 |
-| 4 | [Colecciones y manejo de datos](modulo_04_colecciones/README.md) | 6 |
-| 5 | [Programación Orientada a Objetos](modulo_05_poo/README.md) | 6 |
-| 6 | [Archivos y gestión de excepciones](modulo_06_archivos_excepciones/README.md) | 3 |
-| 7 | [Python para ciencia de datos](modulo_07_ciencia_datos/README.md) | 8 |
-| 8 | [Proyecto práctico y evaluación](modulo_08_proyecto/README.md) | 4 |
