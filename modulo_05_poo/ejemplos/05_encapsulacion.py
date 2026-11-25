@@ -19,11 +19,11 @@ class Producto:
         self._precio = valor                 # con guion bajo; self.precio sería recursión infinita
 
     @property
-    def precio_con_iva(self):                # calculada y de solo lectura
+    def precio_con_iva(self):               # calculada y de solo lectura
         return round(self._precio * (1 + self.IVA / 100), 2)
 
     def __repr__(self):
-        return f"Producto({self.nombre!r}, {self._precio!r})"
+        return f"Producto({self.nombre!r}, {self.precio!r})"
 
 
 class Cuenta:
@@ -58,7 +58,7 @@ class Cuenta:
 
 def main():
     teclado = Producto("Teclado", 45.0)
-    teclado.precio = 49.0                    # sintaxis de atributo; ejecuta el setter
+    teclado.precio = 59.0                    # sintaxis de atributo; ejecuta el setter
     print(teclado, teclado.precio, teclado.precio_con_iva)
 
     try:
