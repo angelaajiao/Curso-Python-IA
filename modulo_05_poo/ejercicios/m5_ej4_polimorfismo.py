@@ -20,7 +20,13 @@ class ExportadorCsv:
         id;nombre
         1;Ada
         """
-        raise NotImplementedError
+        if not registros:
+            return ""
+        columnas = list(registros[0])
+        lineas = [";".join(columnas)]
+        for registro in registros:
+            lineas.append(";".join(str(registro[columna]) for columna in columnas))
+        return "\n".join(lineas)
 
 
 class ExportadorTexto:
@@ -34,7 +40,10 @@ class ExportadorTexto:
         >>> ExportadorTexto().exportar([{"id": 1, "nombre": "Ada"}])
         'id=1, nombre=Ada'
         """
-        raise NotImplementedError
+        return "\n".join(
+            ", ".join(f"{clave}={valor}" for clave, valor in registro.items())
+            for registro in registros
+        )
 
 
 class ExportadorMarkdown:
@@ -52,8 +61,21 @@ class ExportadorMarkdown:
         | --- | --- |
         | 1 | Ada |
         """
-        raise NotImplementedError
+        if not registros:
+            return ""
+        columnas = list(registros[0])
+        lineas = [
+            self._fila(columnas),
+            self._fila(["---"] * len(columnas)),
+        ]
+        for registro in registros:
+            lineas.append(self._fila(registro[columna] for columna in columnas))
+        return "\n".join(lineas)
 
+    @staticmethod
+    def _fila(celdas) -> str:
+        """Une las celdas en una fila de tabla Markdown."""
+        return "| " + " | ".join(str(celda) for celda in celdas) + " |"
 
 def exportar_con(exportador, registros: list[dict]) -> str:
     """Exporta los registros con el exportador recibido.
@@ -61,7 +83,7 @@ def exportar_con(exportador, registros: list[dict]) -> str:
     No puede comprobar de qué clase es el exportador: tiene que funcionar
     con cualquier objeto que tenga un método ``exportar``.
     """
-    raise NotImplementedError
+    return exportador.exportar(registros)
 
 
 def nombre_de_fichero(exportador, nombre: str) -> str:
@@ -70,12 +92,15 @@ def nombre_de_fichero(exportador, nombre: str) -> str:
     >>> nombre_de_fichero(ExportadorCsv(), "ventas")
     'ventas.csv'
     """
-    raise NotImplementedError
+    return f"{nombre}.{exportador.extension}"
 
 
 def exportar_a_todos(exportadores: list, registros: list[dict]) -> dict[str, str]:
     """Devuelve un diccionario que asocia cada extensión con su texto exportado."""
-    raise NotImplementedError
+    return {
+        exportador.extension: exportador.exportar(registros)
+        for exportador in exportadores
+    }
 
 
 def puede_exportar(objeto) -> bool:
@@ -84,4 +109,4 @@ def puede_exportar(objeto) -> bool:
     >>> puede_exportar(ExportadorCsv()), puede_exportar("texto")
     (True, False)
     """
-    raise NotImplementedError
+    return callable(getattr(objeto, "exportar", None))
