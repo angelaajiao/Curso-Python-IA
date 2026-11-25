@@ -32,6 +32,13 @@ class Becario(Empleado):
         return round(self.salario / 12 * 0.6, 2)
 
 
+class ConSuper(Empleado):
+    def __init__(self, nombre, salario):
+        super().__init__(nombre, salario)             # MAL: no llama a super().__init__
+        
+    def __len__(self):
+        return len(self.nombre)
+
 class SinSuper(Empleado):
     def __init__(self, nombre):                  # MAL: no llama a super().__init__
         self.alias = nombre
@@ -86,7 +93,20 @@ class Pedido(Registrable, Serializable):
 
 
 def main():
-    plantilla = [Empleado("Ada", 52000), Comercial("Grace", 36000, 400), Becario("Alan", 18000)]
+    pepe = ConSuper("Pepe", 45000)
+    print(len(pepe))
+
+    print(pepe.descripcion())
+
+    manolo = ConSuper("Manolo", 45000)
+
+    print(manolo.descripcion())
+
+
+    plantilla = [Empleado("Ada", 52000), Comercial("Grace", 36000, 400), Becario("Alan", 18000), ConSuper("Pepe", 45000)]
+
+
+
     for persona in plantilla:
         print(persona.descripcion())
 
@@ -94,7 +114,7 @@ def main():
     print(isinstance(grace, Empleado), isinstance(grace, Comercial), issubclass(Becario, Empleado))
 
     try:
-        SinSuper("Linus").salario_mensual()
+        ConSuper("Pepe", 45000).salario_mensual()
     except AttributeError as error:
         print("AttributeError:", error)
 
