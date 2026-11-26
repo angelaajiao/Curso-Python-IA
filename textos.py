@@ -200,3 +200,149 @@ def nombre_cocina(cocina: str | None, idioma: str) -> str:
     if not cocina:
         return ""
     return COCINAS_ES.get(cocina, cocina) if idioma == "es" else cocina
+
+
+# Nombres de ingredientes de TheMealDB en español. Se usan antes que el
+# traductor automático, porque una palabra suelta sin contexto se traduce mal
+# ("Oil" sale "Petróleo", "Stock" sale "Existencias"…). Las claves van en
+# minúsculas. Lo que no esté aquí se traduce automáticamente.
+INGREDIENTES_ES = {
+    "almonds": "almendras",
+    "apple": "manzana",
+    "aubergine": "berenjena",
+    "avocado": "aguacate",
+    "bacon": "beicon",
+    "baking powder": "levadura química",
+    "banana": "plátano",
+    "basil": "albahaca",
+    "bay leaf": "hoja de laurel",
+    "bay leaves": "hojas de laurel",
+    "beef": "ternera",
+    "beef stock": "caldo de carne",
+    "bicarbonate of soda": "bicarbonato",
+    "black pepper": "pimienta negra",
+    "bread": "pan",
+    "breadcrumbs": "pan rallado",
+    "broccoli": "brócoli",
+    "brown sugar": "azúcar moreno",
+    "butter": "mantequilla",
+    "caster sugar": "azúcar extrafino",
+    "carrot": "zanahoria",
+    "carrots": "zanahorias",
+    "celery": "apio",
+    "cheddar cheese": "queso cheddar",
+    "cheese": "queso",
+    "chicken": "pollo",
+    "chicken breast": "pechuga de pollo",
+    "chicken breasts": "pechugas de pollo",
+    "chicken stock": "caldo de pollo",
+    "chicken thighs": "muslos de pollo",
+    "chickpeas": "garbanzos",
+    "chilli": "guindilla",
+    "chilli powder": "chile en polvo",
+    "chocolate": "chocolate",
+    "chopped tomatoes": "tomate troceado",
+    "cinnamon": "canela",
+    "cloves": "clavos",
+    "coconut milk": "leche de coco",
+    "cod": "bacalao",
+    "coriander": "cilantro",
+    "courgette": "calabacín",
+    "cream": "nata",
+    "cucumber": "pepino",
+    "cumin": "comino",
+    "double cream": "nata para montar",
+    "egg": "huevo",
+    "egg yolks": "yemas de huevo",
+    "eggs": "huevos",
+    "flour": "harina",
+    "garlic": "ajo",
+    "garlic clove": "diente de ajo",
+    "ginger": "jengibre",
+    "green pepper": "pimiento verde",
+    "ham": "jamón",
+    "heavy cream": "nata para montar",
+    "honey": "miel",
+    "lamb": "cordero",
+    "leek": "puerro",
+    "lemon": "limón",
+    "lemon juice": "zumo de limón",
+    "lentils": "lentejas",
+    "lettuce": "lechuga",
+    "lime": "lima",
+    "milk": "leche",
+    "minced beef": "carne picada de ternera",
+    "mint": "hierbabuena",
+    "mushrooms": "champiñones",
+    "mussels": "mejillones",
+    "nutmeg": "nuez moscada",
+    "oil": "aceite",
+    "olive oil": "aceite de oliva",
+    "onion": "cebolla",
+    "onions": "cebollas",
+    "oregano": "orégano",
+    "paprika": "pimentón",
+    "parmesan": "parmesano",
+    "parsley": "perejil",
+    "pasta": "pasta",
+    "peas": "guisantes",
+    "pepper": "pimienta",
+    "plain flour": "harina de trigo",
+    "pork": "cerdo",
+    "potato": "patata",
+    "potatoes": "patatas",
+    "prawns": "gambas",
+    "red onion": "cebolla morada",
+    "red pepper": "pimiento rojo",
+    "red wine": "vino tinto",
+    "rice": "arroz",
+    "rosemary": "romero",
+    "salmon": "salmón",
+    "salt": "sal",
+    "sausages": "salchichas",
+    "self-raising flour": "harina con levadura",
+    "shallots": "chalotas",
+    "single cream": "nata líquida",
+    "soy sauce": "salsa de soja",
+    "spaghetti": "espaguetis",
+    "spinach": "espinacas",
+    "spring onions": "cebolletas",
+    "squid": "calamar",
+    "stock": "caldo",
+    "sugar": "azúcar",
+    "sunflower oil": "aceite de girasol",
+    "sweetcorn": "maíz dulce",
+    "thyme": "tomillo",
+    "tomato": "tomate",
+    "tomato puree": "concentrado de tomate",
+    "tomatoes": "tomates",
+    "tuna": "atún",
+    "turmeric": "cúrcuma",
+    "vanilla extract": "extracto de vainilla",
+    "vegetable oil": "aceite vegetal",
+    "vegetable stock": "caldo de verduras",
+    "vinegar": "vinagre",
+    "water": "agua",
+    "white wine": "vino blanco",
+    "yeast": "levadura",
+    "yogurt": "yogur",
+}
+
+
+def ingrediente_conocido(nombre: str, idioma: str) -> str | None:
+    """Traducción fija de un ingrediente, o ``None`` si no está en el diccionario.
+
+    En inglés no hay nada que traducir. Se respeta la mayúscula inicial.
+
+    >>> ingrediente_conocido("Oil", "es"), ingrediente_conocido("olive oil", "es")
+    ('Aceite', 'aceite de oliva')
+    >>> ingrediente_conocido("Dragon fruit", "es") is None, ingrediente_conocido("Oil", "en") is None
+    (True, True)
+    """
+    if idioma != "es":
+        return None
+    limpio = nombre.strip()
+    traduccion = INGREDIENTES_ES.get(limpio.lower())
+    if traduccion and limpio[:1].isupper():
+        return traduccion[0].upper() + traduccion[1:]
+    return traduccion

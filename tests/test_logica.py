@@ -230,3 +230,13 @@ def test_cuantas_mas(mostradas, total, esperado):
 )
 def test_dividir_instrucciones_quita_la_numeracion(texto, esperado):
     assert logica.dividir_instrucciones(texto) == esperado
+
+
+# -------------------------------------------------------------- rellenar_huecos
+def test_rellenar_huecos():
+    assert logica.rellenar_huecos([None, "Sal", None], ["Uno", "Dos"]) == ["Uno", "Sal", "Dos"]
+
+
+def test_rellenar_huecos_todo_conocido_o_todo_automatico():
+    assert logica.rellenar_huecos(["Sal", "Agua"], []) == ["Sal", "Agua"]
+    assert logica.rellenar_huecos([None, None], ["A", "B"]) == ["A", "B"]

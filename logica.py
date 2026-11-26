@@ -326,6 +326,20 @@ def agrupar_en_bloques(textos: list[str], max_caracteres: int) -> list[list[str]
     return bloques
 
 
+def rellenar_huecos(fijos: list[str | None], traducidos: list[str]) -> list[str]:
+    """Junta las traducciones fijas con las automáticas, en su orden.
+
+    ``fijos`` tiene la traducción conocida de cada elemento o ``None`` si hubo
+    que traducirlo automáticamente; ``traducidos`` tiene esas traducciones
+    automáticas, en el mismo orden en que aparecen los ``None``.
+
+    >>> rellenar_huecos(["Aceite", None, "Sal", None], ["Fruta del dragón", "Queso feta"])
+    ['Aceite', 'Fruta del dragón', 'Sal', 'Queso feta']
+    """
+    automaticos = iter(traducidos)
+    return [fijo if fijo is not None else next(automaticos) for fijo in fijos]
+
+
 def dividir_instrucciones(texto: str | None) -> list[str]:
     """Separa las instrucciones en pasos, uno por línea con contenido.
 

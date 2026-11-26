@@ -37,3 +37,26 @@ def test_nombre_categoria(categoria, idioma, esperado):
 )
 def test_nombre_cocina(cocina, idioma, esperado):
     assert textos.nombre_cocina(cocina, idioma) == esperado
+
+
+@pytest.mark.parametrize(
+    "nombre, esperado",
+    [
+        ("Oil", "Aceite"),
+        ("oil", "aceite"),
+        ("Olive Oil", "Aceite de oliva"),
+        ("Stock", "Caldo"),
+        (" Salt ", "Sal"),
+        ("Dragon fruit", None),
+    ],
+)
+def test_ingrediente_conocido_en_espanol(nombre, esperado):
+    assert textos.ingrediente_conocido(nombre, "es") == esperado
+
+
+def test_ingrediente_conocido_en_ingles_no_traduce():
+    assert textos.ingrediente_conocido("Oil", "en") is None
+
+
+def test_diccionario_de_ingredientes_en_minusculas():
+    assert all(clave == clave.lower().strip() for clave in textos.INGREDIENTES_ES)

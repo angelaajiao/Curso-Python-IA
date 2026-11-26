@@ -268,17 +268,26 @@ def mostrar_tarjetas(recetas: list[dict], idioma: str, t, *,
 
 def traducir_receta(receta: dict, ingredientes: list[tuple[str, str]],
                     pasos: list[str], idioma: str) -> tuple[str, list[str], list[str], list[str], bool]:
-    """Traduce de una vez el título, los ingredientes, las cantidades y los pasos."""
+    """Traduce de una vez el título, los ingredientes, las cantidades y los pasos.
+
+    Los ingredientes que están en el diccionario de textos.py usan esa
+    traducción; solo los demás se mandan al traductor automático.
+    """
     nombres = [nombre for nombre, _ in ingredientes]
     cantidades = [cantidad for _, cantidad in ingredientes]
-    frases = [receta["strMeal"], *nombres, *cantidades, *pasos]
+    conocidos = [textos.ingrediente_conocido(nombre, idioma) for nombre in nombres]
+    pendientes = [nombre for nombre, conocido in zip(nombres, conocidos) if conocido is None]
+
+    frases = [receta["strMeal"], *pendientes, *cantidades, *pasos]
     traducidas, ok = traducir_cacheado(tuple(frases), idioma)
 
-    n = len(ingredientes)
+    n_pendientes = len(pendientes)
+    n_cantidades = len(cantidades)
     titulo = traducidas[0]
-    nombres_vistos = traducidas[1:1 + n]
-    cantidades_vistas = traducidas[1 + n:1 + 2 * n]
-    pasos_vistos = traducidas[1 + 2 * n:]
+    nombres_traducidos = traducidas[1:1 + n_pendientes]
+    cantidades_vistas = traducidas[1 + n_pendientes:1 + n_pendientes + n_cantidades]
+    pasos_vistos = traducidas[1 + n_pendientes + n_cantidades:]
+    nombres_vistos = logica.rellenar_huecos(conocidos, nombres_traducidos)
     return titulo, nombres_vistos, cantidades_vistas, pasos_vistos, ok
 
 
