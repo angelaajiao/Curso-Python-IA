@@ -22,6 +22,13 @@ import pandas as pd
 ventas = pd.read_csv("datos/ventas_2026.csv", parse_dates=["fecha"])
 ```
 
+## Ejercicio guiado: EDA del Titanic
+
+Abre `eda_titanic.ipynb` y ejecuta sus celdas en orden. El cuaderno usa el
+CSV incluido en `datos/titanic.csv` y propone preguntas para practicar
+inspección, valores ausentes, visualización e interpretación. Es independiente
+de los ejercicios evaluados con pytest.
+
 ## Ejercicio 1. NumPy
 
 Fichero: `m7_ej1_numpy.py`

@@ -16,12 +16,12 @@ def importe(venta: dict) -> float:
     >>> importe({"unidades": 3, "precio": 19.9})
     59.7
     """
-    raise NotImplementedError
+    return round(venta["unidades"] * venta["precio"], 2)
 
 
 def total_ventas(ventas: list[dict]) -> float:
     """Devuelve la suma de los importes de todas las ventas, con dos decimales."""
-    raise NotImplementedError
+    return round(sum(importe(venta) for venta in ventas), 2)
 
 
 def filtrar_ventas(ventas: list[dict], *, region: str | None = None,
@@ -32,7 +32,22 @@ def filtrar_ventas(ventas: list[dict], *, region: str | None = None,
     Un criterio que vale ``None`` no se aplica. ``desde`` y ``hasta`` son
     fechas ISO y las dos están incluidas en el intervalo.
     """
-    raise NotImplementedError
+    resultado = []
+    for venta in ventas:
+        if region is not None and venta["region"] != region:
+            continue
+        if categoria is not None and venta["categoria"] != categoria:
+            continue
+        if vendedor is not None and venta["vendedor"] != vendedor:
+            continue
+        if desde is not None and venta["fecha"] < desde:
+            continue
+        if hasta is not None and venta["fecha"] > hasta:
+            continue
+        resultado.append(venta)
+    return resultado
+    # Las fechas ISO se pueden comparar como texto: su orden alfabético
+    # coincide con el cronológico.
     # Las fechas ISO se pueden comparar como texto: su orden alfabético
     # coincide con el cronológico.
 
@@ -45,12 +60,20 @@ def importe_por(ventas: list[dict], campo: str) -> dict[str, float]:
     >>> importe_por([{"region": "Norte", "unidades": 2, "precio": 10.0}], "region")
     {'Norte': 20.0}
     """
-    raise NotImplementedError
+    totales = {}
+    for venta in ventas:
+        clave = venta[campo]
+        totales[clave] = totales.get(clave, 0) + importe(venta)
+    return {clave: round(total, 2) for clave, total in totales.items()}
 
 
 def unidades_por_producto(ventas: list[dict]) -> dict[str, int]:
     """Devuelve las unidades totales vendidas de cada producto."""
-    raise NotImplementedError
+    unidades = {}
+    for venta in ventas:
+        producto = venta["producto"]
+        unidades[producto] = unidades.get(producto, 0) + venta["unidades"]
+    return unidades
 
 
 def ranking(ventas: list[dict], campo: str, cantidad: int = 3) -> list[tuple[str, float]]:
@@ -58,7 +81,9 @@ def ranking(ventas: list[dict], campo: str, cantidad: int = 3) -> list[tuple[str
 
     De mayor a menor importe. A igual importe, por orden alfabético de la clave.
     """
-    raise NotImplementedError
+    totales = importe_por(ventas, campo)
+    orden = sorted(totales.items(), key=lambda par: (-par[1], par[0]))
+    return orden[:cantidad]
 
 
 def producto_mas_vendido(ventas: list[dict]) -> str | None:
@@ -66,17 +91,39 @@ def producto_mas_vendido(ventas: list[dict]) -> str | None:
 
     En caso de empate, el primero por orden alfabético.
     """
-    raise NotImplementedError
+    unidades = unidades_por_producto(ventas)
+    if not unidades:
+        return None
+    return min(unidades, key=lambda producto: (-unidades[producto], producto))
 
 
 def ticket_medio(ventas: list[dict]) -> float:
     """Devuelve el importe medio por venta, con dos decimales. Sin ventas, 0.0."""
-    raise NotImplementedError
+    if not ventas:
+        return 0.0
+    return round(total_ventas(ventas) / len(ventas), 2)
 
 
 def generar_informe(ventas: list[dict]) -> str:
     """Devuelve el informe de ventas como texto, con el formato del enunciado."""
-    raise NotImplementedError
+    separador = "=" * ANCHO
+    lineas = [
+        separador,
+        f"{'INFORME DE VENTAS':^{ANCHO}}",
+        separador,
+        f"{'Ventas registradas':<30}{len(ventas):>14}",
+        f"{'Importe total':<30}{total_ventas(ventas):>14,.2f}",
+        f"{'Ticket medio':<30}{ticket_medio(ventas):>14,.2f}",
+        f"{'Producto más vendido':<30}{producto_mas_vendido(ventas) or '-':>14}",
+    ]
+    for titulo, campo in (("Por región", "region"), ("Por categoría", "categoria"),
+                          ("Por vendedor", "vendedor")):
+        lineas.append("-" * ANCHO)
+        lineas.append(titulo)
+        for clave, total in ranking(ventas, campo, cantidad=len(ventas)):
+            lineas.append(f"  {clave:<28}{total:>14,.2f}")
+    lineas.append(separador)
+    return "\n".join(lineas)
 
 
 def main():
