@@ -9,7 +9,7 @@ IDIOMA_POR_DEFECTO = "es"
 
 TEXTOS = {
     "es": {
-        "titulo": "¿Qué puedo cocinar?",
+        "titulo": "¿Qué puedo cocinar hoy? 🤔",
         "subtitulo": "Escribe lo que tienes en la nevera, separado por comas, y te propongo recetas.",
         "campo_ingredientes": "Ingredientes",
         "placeholder": "pollo, arroz, tomate",
@@ -45,10 +45,10 @@ TEXTOS = {
         "receta_original": "Ver la receta original",
         "no_encontrada": "No se ha encontrado la receta.",
         "sin_traduccion": "No se ha podido traducir la receta, así que se muestra en inglés. Vuelve a abrirla para intentarlo de nuevo.",
-        "pie": "Recetas de TheMealDB · Hecho con Python y Streamlit",
+        "pie": "Recetas de TheMealDB · Angela Jiao",
         "seccion_buscar": "🔍 Buscar",
         "seccion_favoritas": "❤️ Favoritas ({n})",
-        "titulo_favoritas": "Tus recetas favoritas",
+        "titulo_favoritas": "Tus favoritos",
         "sin_favoritas": "Todavía no tienes favoritas. Abre una receta y pulsa «Guardar en favoritas», o toca el corazón de una tarjeta.",
         "guardar_favorita": "Guardar en favoritas",
         "quitar_favorita": "Quitar de favoritas",

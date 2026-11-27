@@ -24,8 +24,9 @@ POR_PAGINA = 12
 COLUMNAS = 3
 URL_BUSQUEDA_YOUTUBE = "https://www.youtube.com/results?search_query="
 FICHERO_FAVORITAS = Path(__file__).with_name("favoritos.json")
+FICHERO_TRADUCCIONES = Path(__file__).with_name("traducciones.json")
 
-st.set_page_config(page_title="¿Qué puedo cocinar?", page_icon="🍳", layout="wide")
+st.set_page_config(page_title="¿Qué cocino?", page_icon="🍳", layout="wide")
 
 ESTILOS = """
 <style>
@@ -136,11 +137,22 @@ class TraduccionFallida(Exception):
     """La traducción no ha funcionado (sin conexión, límite superado…)."""
 
 
+@st.cache_resource
+def memoria_de_traducciones() -> dict[str, dict[str, str]]:
+    """Las traducciones guardadas en traducciones.json. Se leen una sola vez."""
+    return traduccion.cargar_memoria(FICHERO_TRADUCCIONES)
+
+
 @st.cache_data(show_spinner=False)
 def _traduccion_guardada(frases: tuple[str, ...], idioma: str) -> list[str]:
     # Si falla se lanza una excepción: st.cache_data no guarda los errores,
     # así que la próxima vez se vuelve a intentar en vez de quedarse en inglés.
-    traducidas, ok = traduccion.traducir_lista(list(frases), destino=idioma)
+    memoria = memoria_de_traducciones()
+    memoria_idioma = memoria.setdefault(idioma, {})
+    antes = len(memoria_idioma)
+    traducidas, ok = traduccion.traducir_lista(list(frases), destino=idioma, memoria=memoria_idioma)
+    if len(memoria_idioma) > antes:
+        traduccion.guardar_memoria(FICHERO_TRADUCCIONES, memoria)
     if not ok:
         raise TraduccionFallida
     return traducidas
@@ -206,7 +218,7 @@ def marcar_todas(claves: list[str], valor: bool) -> None:
 # ------------------------------------------------------------------ dibujar
 def mostrar_cabecera(t) -> None:
     st.html(
-        f'<div class="cabecera"><h1>🍳 {html.escape(t("titulo"))}</h1>'
+        f'<div class="cabecera"><h1>{html.escape(t("titulo"))}</h1>'
         f'<p>{html.escape(t("subtitulo"))}</p></div>'
     )
 
